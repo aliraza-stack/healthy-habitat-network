@@ -1,5 +1,13 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../controllers/AuthController.php';
+require_once __DIR__ . '/../controllers/HomeController.php';
+require_once __DIR__ . '/../controllers/ProductController.php';
+require_once __DIR__ . '/../controllers/VoteController.php';
+require_once __DIR__ . '/../controllers/CompanyController.php';
+require_once __DIR__ . '/../controllers/AreaController.php';
+require_once __DIR__ . '/../controllers/AdminController.php';
+require_once __DIR__ . '/../controllers/PageController.php';
 
 // Apply configuration settings
 $config = Config::getConfig();
@@ -20,13 +28,6 @@ session_set_cookie_params($config['session']['lifetime']);
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-require_once __DIR__ . '/../controllers/AuthController.php';
-require_once __DIR__ . '/../controllers/HomeController.php';
-require_once __DIR__ . '/../controllers/ProductController.php';
-require_once __DIR__ . '/../controllers/VoteController.php';
-require_once __DIR__ . '/../controllers/CompanyController.php';
-require_once __DIR__ . '/../controllers/AreaController.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -130,6 +131,29 @@ try {
             }
             break;
 
+        case 'about':
+            $controller = new PageController();
+            $controller->about();
+            break;
+
+        case 'contact':
+            $controller = new PageController();
+            $controller->contact($_POST);
+            break;
+
+        case 'admin':
+            $controller = new AdminController();
+            if ($method === 'GET' && !isset($segments[1])) {
+                $controller->dashboard();
+            } elseif ($method === 'POST' && isset($segments[1]) && $segments[1] === 'create-company') {
+                $controller->createCompany($_POST);
+            } elseif ($method === 'POST' && isset($segments[1]) && $segments[1] === 'create-area') {
+                $controller->createArea($_POST);
+            } else {
+                render404();
+            }
+            break;
+
         default:
             render404();
     }
@@ -139,7 +163,7 @@ try {
     $title = "Error";
     $error = $e->getMessage();
     ob_start();
-    require_once __DIR__ . '/../views/errors/error.php';
+    require_once __DIR__ . '/../views/alerts/error.php';
     $content = ob_get_clean();
     require_once __DIR__ . '/../views/layouts/main.php';
 }

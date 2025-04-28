@@ -1,0 +1,41 @@
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1f2937;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+.error-message {
+    color: #dc2626;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+.input-error {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+.form-check-input:checked {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+.tab-active {
+    border-bottom-width: 3px;
+    border-color: #2563eb;
+    color: #2563eb;
+}
+.tab-inactive {
+    border-bottom-width: 3px;
+    border-color: transparent;
+    color: #6b7280;
+}
+.btn-primary {
+    background-color: #2563eb;
+    transition: background-color 0.2s ease-in-out;
+}
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+.focus:ring-blue-400 {
+    --tw-ring-color: #93c5fd;
+}

@@ -31,12 +31,14 @@ class CompanyController {
     public function create($data) {
         AuthMiddleware::check(); // Restrict to logged-in users
         try {
-            if (empty($data['name']) || empty($data['contact_info']['email']) || empty($data['contact_info']['phone'])) {
+            if (empty($data['name']) || empty($data['contact_email']) || empty($data['contact_phone'])) {
                 throw new Exception("All fields are required.");
             }
             $this->companyService->addCompany([
                 'name' => $data['name'],
-                'contact_info' => $data['contact_info']
+                'contact_email' => $data['contact_email'],
+                'contact_phone' => $data['contact_phone'],
+                'contact_address' => $data['contact_address'] ?? null
             ]);
             Config::log("Company created by user {$_SESSION['user_id']}: {$data['name']}");
             $success = "Company added successfully!";

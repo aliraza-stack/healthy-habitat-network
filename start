@@ -1,0 +1,36 @@
+#!/usr/bin/env php
+<?php
+// start: PHP script to launch the built-in server or run project commands
+
+$options = getopt("p:", ["port:"]);
+$port = '8000'; // Default port
+
+if (isset($options['p'])) {
+    $port = $options['p'];
+} elseif (isset($options['port'])) {
+    $port = $options['port'];
+}
+
+$publicDir = __DIR__ . '/public';
+if (!is_dir($publicDir)) {
+    fwrite(STDERR, "Error: public directory not found.\n");
+    exit(1);
+}
+
+// If a command is passed (after --), run it via healthyhabitatnetwork scripts
+$args = array_slice($argv, 1);
+if (!empty($args)) {
+    if ($args[0] === 'migrate') {
+        require __DIR__ . '/healthyhabitatnetwork/migrate.php';
+        exit(0);
+    }
+    if ($args[0] === 'rollback') {
+        require __DIR__ . '/healthyhabitatnetwork/rollback.php';
+        exit(0);
+    }
+}
+
+// Default: Start the server
+$cmd = sprintf('php -S localhost:%s -t %s', escapeshellarg($port), escapeshellarg($publicDir));
+echo "Starting server at http://localhost:$port ...\n";
+system($cmd);

@@ -69,7 +69,12 @@ class AuthController {
             $user = $this->userService->login($data['email'], $data['password']);
             Config::log("User logged in: ID {$user->id}");
             $_SESSION['user_id'] = $user->id;
-            header('Location: /products');
+            $_SESSION['username'] = $user->username;
+            if ($user->username === 'admin') {
+                header('Location: /admin');
+            } else {
+                header('Location: /');
+            }
             exit;
         } catch (Exception $e) {
             $error = $e->getMessage();

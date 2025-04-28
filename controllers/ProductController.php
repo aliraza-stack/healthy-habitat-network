@@ -22,7 +22,8 @@ class ProductController {
         $result = [];
         foreach ($products as $product) {
             $votes = $this->voteService->getProductVotes($product->id);
-            $result[] = ['product' => $product, 'votes' => $votes];
+            $companies = $this->companyService->getProductCompanies($product->company_id);
+            $result[] = ['product' => $product, 'votes' => $votes, 'companies' => $companies];
         }
         $products = $result;
         ob_start();

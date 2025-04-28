@@ -17,12 +17,12 @@
     <!-- /* views/shared/header.php */ -->
 
     <!-- /* views/layouts/main.php */ -->
-    <div class="mx-auto container mt-4">
+    <div class="mx-auto">
         <?php if (isset($success)): ?>
-            <div class="alert alert-success"><?php echo htmlspecialchars($success); ?></div>
+            <?php require_once __DIR__ . '/../alerts/success.php'; ?>
         <?php endif; ?>
         <?php if (isset($error)): ?>
-            <?php require_once __DIR__ . '/../errors/error.php'; ?>
+            <?php require_once __DIR__ . '/../alerts/error.php'; ?>
         <?php endif; ?>
         <?php echo $content; ?>
     </div>
@@ -32,7 +32,8 @@
     <!-- /* views/shared/footer.php */ -->
     <?php include '../views/shared/footer.php'; ?>
     <!-- /* views/shared/footer.php */ -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/auth.js"></script>
 </body>
 </html>
